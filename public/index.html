@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Document</title>
+
+</head>
+
+<body>
+
+    <div class="app">
+        <div class="controls">
+            <div class="title">DRAW</div>
+            <div class="type">
+                <input type="radio" name="pen-type" id="pen-pencil" checked>
+                <label for="pen-pencil"><i class="fa fa-pencil"></i></label>
+
+                <input type="radio" name="pen-type" id="pen-brush" checked>
+                <label for="pen-brush"><i class="fa fa-paint-brush"></i></label>
+            </div>
+            <div class="size"><label for="pen-size">Größe</label>
+                <input type="range" id="pen-size" min="1" max="100" value="50">
+            </div>
+            <div class="color">
+                <label for="pen-color">Farbe</label>
+                <input type="color" id="pen-color" value="#e66465">
+            </div>
+            <div class="actions">
+                <button id="reset">Reset</button>
+                <button id="save">Save</button>
+                <button id="load">Load</button>
+            </div>
+        </div>
+        <canvas id="canvas-wrapper" width="600"  height="600"></canvas>
+    </div>
+
+
+
+    <script src="./zeichnen.js"></script>
+</body>
+
+</html>
