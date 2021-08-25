@@ -1,15 +1,45 @@
 'use strict';
+let imageURL, imageData, file;
+
+function saveImageToDatabase(file) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'file', true);
+    xhr.onload = function () {
+        if (this.status == 200) {
+
+            // const fd = new FormData;
+            // fd.append('image', file);
+            // $.ajax({
+            //     type: "POST",
+            //     url: "/bild",
+            //     data: fd,
+            //     processData: false,
+            //     contentType: false
+            // }).done(function () {
+            //     console.log("saved")
+            // });
+
+
+            console.log(this.responseText)
+        }
+    }
+    xhr.send();
+
+}
+
+
 
 document.addEventListener('DOMContentLoaded', event => {
     let lastX, lastY;
     let zeichnen = false;
+
     const pencil = document.querySelector('#pen-pencil');
     const brush = document.querySelector('#pen-brush');
     const pensize = document.querySelector('#pen-size');
     const color = document.querySelector('#pen-color');
     const reset = document.querySelector('#reset');
     const save = document.querySelector('#save');
-    const load = document.querySelector('#load');
+    const imageLoader = document.querySelector('#uploader');
     const canvas = document.querySelector('#canvas-wrapper');
     const context = canvas.getContext('2d');
 
@@ -69,32 +99,6 @@ document.addEventListener('DOMContentLoaded', event => {
 
     }
 
-
-    // const zeichneSterne = () => {
-    //     canvas.addEventListener('mousedown', e => {
-    //         console.log(context.strokeStyle);
-    //         context.beginPath();
-    //         context.moveTo(e.layerX, e.layerY);
-    //         context.lineTo(e.layerX, e.layerY);
-    //         context.stroke()
-    //         lastX = e.layerX;
-    //         lastY = e.layerY;
-    //     });
-
-    //     canvas.addEventListener('mousemove', e => {
-
-    //         console.log(e.layerX, e.layerY);
-    //         context.beginPath();
-    //         context.moveTo(lastX, lastY);
-    //         context.lineTo(e.layerX, e.layerY);
-    //         context.stroke()
-    //     });
-
-    //     canvas.addEventListener('mouseup', function () {
-
-
-    //     });
-
     const init = () => {
 
         zeichne();
@@ -107,16 +111,39 @@ document.addEventListener('DOMContentLoaded', event => {
     });
 
     save.addEventListener("click", function () {
-        saveCanvas(canvas, "sketch", "png");
+        // imageURL = canvas.toDataURL('./image/png');
+        // imageData = imageURL.replace(/^data:image\/\w+;base64,/, "");
+        // var image = canvas.toDataURL('./image/png').replace("image/octet-stream");
+        // file = dataURLtoBlob(canvas.toDataURL('./image/png'));
+        // saveImage(file);
+
+        const image = canvas.toDataURL();
+        const link = document.createElement("a");
+        link.href = image;
+        link.download = "bild.png";
+        link.click();
+
+
     });
 
-    load.addEventListener("click", function () {
+    const reader = new FileReader();
+    const img = new Image();
 
-    });
-
-
+    const uploadImage = (e) => {
+        reader.onload = () => {
+            img.onload = () => {
+                canvas.width = img.width;
+                canvas.height = img.height;
+                context.drawImage(img, 0, 0);
+            };
+            img.src = reader.result;
+        };
+        reader.readAsDataURL(e.target.files[0]);
+    };
+    imageLoader.addEventListener("change", uploadImage);
 
     // INIT
     init();
 })
+
 
