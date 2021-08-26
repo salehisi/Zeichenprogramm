@@ -1,34 +1,6 @@
 'use strict';
 let imageURL, imageData, file;
 
-function saveImageToDatabase(file) {
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'file', true);
-    xhr.onload = function () {
-        if (this.status == 200) {
-
-            // const fd = new FormData;
-            // fd.append('image', file);
-            // $.ajax({
-            //     type: "POST",
-            //     url: "/bild",
-            //     data: fd,
-            //     processData: false,
-            //     contentType: false
-            // }).done(function () {
-            //     console.log("saved")
-            // });
-
-
-            console.log(this.responseText)
-        }
-    }
-    xhr.send();
-
-}
-
-
-
 document.addEventListener('DOMContentLoaded', event => {
     let lastX, lastY;
     let zeichnen = false;
@@ -43,7 +15,47 @@ document.addEventListener('DOMContentLoaded', event => {
     const canvas = document.querySelector('#canvas-wrapper');
     const context = canvas.getContext('2d');
 
-    let heightRatio = 1;
+
+    save.onsubmit = function () {
+        const name =
+            submitFunction();  // daten werde bearbeitet ohne das formular zu verlassen
+        return false; // mit return false wird verhindert dass das Formular verschickt wird
+    }
+
+    function submitFunction() {
+        const canvasContent = canvas.toDataURL();
+        const name = document.querySelector('#bildname').value
+        const data = { image: canvasContent, name: name };
+        const jsonData = JSON.stringify(data);
+        let xhr = new XMLHttpRequest();
+        console.log("image = " + canvasContent);
+        console.log("xhr = " + xhr);
+        console.log("jsonData" + jsonData);
+        xhr.onload = function () {
+            if (xhr.status == 200) {
+                console.log("success");
+            } else console.log('error' + this.status)
+        };
+        xhr.open("POST", '/saveImage');
+        xhr.setRequestHeader('Content-type', 'application/json')
+        xhr.send(jsonData);
+    }
+    // save.addEventListener("click", function () {
+    //     // imageURL = canvas.toDataURL('./image/png');    
+    //     // imageData = imageURL.replace(/^data:image\/\w+;base64,/, "");
+    //     // var image = canvas.toDataURL('./image/png').replace("image/octet-stream");
+    //     // file = dataURLtoBlob(canvas.toDataURL('./image/png'));
+    //     // saveImage(file);
+
+    //     const image = canvas.toDataURL();
+    //     const link = document.createElement("a");
+    //     link.href = image;
+    //     link.download = "bild.png";
+
+    //     link.click();   
+    // });
+
+    let heightRatio = 0.7;
     canvas.height = canvas.width * heightRatio;
 
     pencil.oninput = function () {
@@ -67,7 +79,6 @@ document.addEventListener('DOMContentLoaded', event => {
     }
 
     const zeichne = () => {
-
 
         canvas.addEventListener('mousedown', e => {
             zeichnen = true;
@@ -93,10 +104,8 @@ document.addEventListener('DOMContentLoaded', event => {
 
         canvas.addEventListener('mouseup', function () {
             zeichnen = false;
-            //   context.beginPath();
 
         });
-
     }
 
     const init = () => {
@@ -104,27 +113,10 @@ document.addEventListener('DOMContentLoaded', event => {
         zeichne();
     }
 
-
-
     reset.addEventListener("click", function () {
         context.clearRect(0, 0, canvas.width, canvas.height);
     });
 
-    save.addEventListener("click", function () {
-        // imageURL = canvas.toDataURL('./image/png');
-        // imageData = imageURL.replace(/^data:image\/\w+;base64,/, "");
-        // var image = canvas.toDataURL('./image/png').replace("image/octet-stream");
-        // file = dataURLtoBlob(canvas.toDataURL('./image/png'));
-        // saveImage(file);
-
-        const image = canvas.toDataURL();
-        const link = document.createElement("a");
-        link.href = image;
-        link.download = "bild.png";
-        link.click();
-
-
-    });
 
     const reader = new FileReader();
     const img = new Image();
@@ -145,5 +137,3 @@ document.addEventListener('DOMContentLoaded', event => {
     // INIT
     init();
 })
-
-

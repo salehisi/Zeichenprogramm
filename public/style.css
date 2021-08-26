@@ -1,7 +1,6 @@
 * {
     margin:0px;
     padding:0px;
- 
 }
 #canvas-wrapper{
     background-color: #eee;
@@ -27,13 +26,6 @@ body {
     background: #ddd;
     padding:0px 10px;
 }
-.app .controls .title {
-    font-weight:600;
-    color:#222;
-    width:80px;
-}
-.app .controls .type 
-.app .controls .type
 .app .controls .type{
     margin:0px 10px,
 }
@@ -61,7 +53,23 @@ label {
 .app .controls .actions {
     flex:1;
     text-align: right;
-} .app .controls .actions button {
+} 
+.app .controls .actions button {
     padding: 5px 10px;
     cursor:pointer;
 }
+#save input {
+    padding:5px 10px;
+    margin:0px 10px;
+}
+.upload {
+    height:50px;
+    display:flex;
+    align-items:center;
+    background: #ddd;
+    padding:0px 10px;   
+}
+.upload input {
+    padding:5px 10px;
+    margin:0px 10px;
+} 

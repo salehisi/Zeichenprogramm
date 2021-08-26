@@ -8,14 +8,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="style.css">
     <title>Document</title>
-
+    <!-- <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script> -->
 </head>
 
 <body>
 
     <div class="app">
         <div class="controls">
-            <div class="title">DRAW</div>
+            <!-- <div class="title">DRAW</div> -->
             <div class="type">
                 <input type="radio" name="pen-type" id="pen-pencil" checked>
                 <label for="pen-pencil"><i class="fa fa-pencil"></i></label>
@@ -24,24 +24,30 @@
                 <label for="pen-brush"><i class="fa fa-paint-brush"></i></label>
             </div>
             <div class="size"><label for="pen-size">Größe</label>
-                <input type="range" id="pen-size" min="1" max="100" value="50">
+                <input type="range" id="pen-size" min="10" max="100" value="10">
             </div>
             <div class="color">
                 <label for="pen-color">Farbe</label>
-                <input type="color" id="pen-color" value="#e66465">
+                <input type="color" id="pen-color" value="#000000">
             </div>
             <div class="actions">
                 <button id="reset">Reset</button>
-                <button id="save">Save</button>
+                <!-- <button id="save">Save</button> -->
             </div>
-        </div>
-        <canvas id="canvas-wrapper" width="600" height="400"></canvas>
+            <form id="save" method="POST">
+                <input type="text" name="filename" id="bildname" size="10" placeholder="bildname.png">
+                <input id="savebutton" type="submit" value="Save">
+            </form>
 
-        <div class="controls">
-            <label for="uploader">Datei auswählen:  </label>
+        </div>
+        <canvas id="canvas-wrapper" width="650"></canvas>
+
+        <div class="upload">
+            <label for="uploader">Datei auswählen: </label>
             <input type="file" id="uploader" />
             <!-- <button>Download</button> -->
         </div>
+    </div>
     </div>
     <script src="./zeichnen.js"></script>
 </body>

@@ -1,39 +1,35 @@
 'use strict';
-
+let bild;
+//require('dotenv').config
 const express = require('express');
 const server = express();
+const fs = require('fs');
+const db = require('nano')('http://silvia:wu2du3!!@localhost:5984').db;
+server.use(express.json());
 
-const request = require("request").defaults({ encoding:null});
+//Route für POST von Client
+server.post('/saveImage', function (request, response) {
 
-// const fs = require('fs');
-// const { isBuffer } = require('util');
+    console.dir(request.body);
+    // response.writeHead(200,{'Content-Type': 'text/html'});
+    response.end('received')
+})
 
-// const dirPath = "./public/img/";
-// const filePath = "./public/img/vogel.png"
-
-// read file
-
-// const content = fs.readFile( filePath, 'utf8', (err, data) => {
-//     if(err){console.log(err.message)} else {
-//          console.log(data);}
-// })
-
-// write file
-
-
-// fs.writeFile(dirPath + "bild.png", data, (err) => {
-//     if (err) console.log("data not saved"); else console.log("data is saved");
-// })
-
-//  var data = fs.writeFile('./public/file2', 'Hello ' , 'utf8', function(error){
-//      if(error) throw error;
-
-//  })
+// CouchDB
+let dbName = 'bilder';
+let dbBeispiel = db.use(dbName);
+// List ohne Parameter liefert nur ID und Revision
+dbBeispiel.list().then(
+    res => res.rows.map(el => el.value)
+).then(
+    res => console.log(res)
+).catch(
+    console.log
+)
 
 server.use(express.static('public', {
-    extensions:['html', 'htm', 'css','js']
+    extensions: ['html', 'htm', 'css', 'js']
 }));
-
 
 const init = () => {
     server.listen(3300, err => console.log(err || 'Server läuft'));
