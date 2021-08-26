@@ -28,9 +28,9 @@ document.addEventListener('DOMContentLoaded', event => {
         const data = { image: canvasContent, name: name };
         const jsonData = JSON.stringify(data);
         let xhr = new XMLHttpRequest();
-        console.log("image = " + canvasContent);
-        console.log("xhr = " + xhr);
-        console.log("jsonData" + jsonData);
+        // console.log("image = " + canvasContent);
+        // console.log("xhr = " + xhr);
+        // console.log("jsonData" + jsonData);
         xhr.onload = function () {
             if (xhr.status == 200) {
                 console.log("success");
