@@ -1,5 +1,6 @@
 'use strict';
 let imageURL, imageData, file;
+let newOption;
 
 document.addEventListener('DOMContentLoaded', event => {
     let lastX, lastY;
@@ -12,25 +13,49 @@ document.addEventListener('DOMContentLoaded', event => {
     const reset = document.querySelector('#reset');
     const save = document.querySelector('#save');
     const imageLoader = document.querySelector('#uploader');
+    const upLoaderS = document.querySelector('#upLoaderS');
     const canvas = document.querySelector('#canvas-wrapper');
     const context = canvas.getContext('2d');
 
-
+    // Alle vorhandene Bilder aus Datenbank abfragen
+/*     upLoaderS.onclick = function() {
+        let xhr = new XMLHttpRequest();
+        xhr.onload = function () {
+            if (xhr.status == 200) {
+                console.log("success");
+            } else console.log('error' + this.status)
+        };
+        xhr.open("GET", '/getImages');
+        xhr.setRequestHeader('Content-type', 'application/json')
+        xhr.send();
+    }
+    */
+   // Die vorhandenen Bilder aus der Datenbank als Auswahloptionen anzeigen
+   // zuerst das html snippet
+   // function createNewOptions() {
+   //     for (var i = 0; i < nameList.length; i++) {
+   //         newOption = documet.createElement("option");
+   //         newOption.value = nameList[i];
+   //         newOption.text = nameList[i];
+   //     } try {
+   //         select.add(newOption);
+   //     } catch (e) {
+   //         select.appendChild(newOption);
+   //     }
+   // }
+   
     save.onsubmit = function () {
-        const name =
-            submitFunction();  // daten werde bearbeitet ohne das formular zu verlassen
+        //     const name =
+        submitFunction();  // daten werde bearbeitet ohne das formular zu verlassen
         return false; // mit return false wird verhindert dass das Formular verschickt wird
     }
-
+    // Canvas Daten an Serversenden
     function submitFunction() {
         const canvasContent = canvas.toDataURL();
         const name = document.querySelector('#bildname').value
         const data = { image: canvasContent, name: name };
         const jsonData = JSON.stringify(data);
         let xhr = new XMLHttpRequest();
-        // console.log("image = " + canvasContent);
-        // console.log("xhr = " + xhr);
-        // console.log("jsonData" + jsonData);
         xhr.onload = function () {
             if (xhr.status == 200) {
                 console.log("success");
@@ -40,20 +65,16 @@ document.addEventListener('DOMContentLoaded', event => {
         xhr.setRequestHeader('Content-type', 'application/json')
         xhr.send(jsonData);
     }
+    // Bilder lokal speichern
     // save.addEventListener("click", function () {
-    //     // imageURL = canvas.toDataURL('./image/png');    
-    //     // imageData = imageURL.replace(/^data:image\/\w+;base64,/, "");
-    //     // var image = canvas.toDataURL('./image/png').replace("image/octet-stream");
-    //     // file = dataURLtoBlob(canvas.toDataURL('./image/png'));
-    //     // saveImage(file);
 
     //     const image = canvas.toDataURL();
     //     const link = document.createElement("a");
     //     link.href = image;
     //     link.download = "bild.png";
-
     //     link.click();   
     // });
+
 
     let heightRatio = 0.7;
     canvas.height = canvas.width * heightRatio;
@@ -68,14 +89,13 @@ document.addEventListener('DOMContentLoaded', event => {
 
     pensize.oninput = function () {
         context.lineWidth = this.value;
-        console.log(context.lineWidth);
     }
+
     color.oninput = function () {
         let farbe;
         farbe = this.value;
         context.strokeStyle = farbe;
         console.log("value" + context.strokeStyle);
-        console.log(typeof farbe)
     }
 
     const zeichne = () => {
@@ -109,7 +129,6 @@ document.addEventListener('DOMContentLoaded', event => {
     }
 
     const init = () => {
-
         zeichne();
     }
 
